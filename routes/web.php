@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\KaryawanChatController;
 use App\Http\Controllers\Web\KaryawanController;
 use App\Http\Controllers\Web\InternalGroupController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,8 @@ Route::get('/storage/{path}', function (string $path) {
 
     return Response::file(Storage::disk('public')->path($path));
 })->where('path', '.*');
+
+Broadcast::routes(['middleware' => ['auth']]);
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
