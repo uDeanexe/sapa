@@ -276,6 +276,124 @@
                     </x-nav-link>
 
                     @if($isKepala)
+                        <p class="px-3 pb-2 pt-4 text-[11px] font-bold uppercase tracking-wider text-slate-400">Manajemen</p>
+
+                        <x-nav-link :href="route('divisions.index')" :active="request()->routeIs('divisions.*')"
+                            class="flex w-full items-center justify-start rounded-lg border-none px-3 py-2 text-sm font-medium transition-colors duration-200" @click="openMobile=false">
+                            <i class="fas fa-layer-group mr-3 w-5"></i> {{ __('Pengaturan Divisi') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('users-management.index')" :active="request()->routeIs('users-management.*')"
+                            class="flex w-full items-center justify-start rounded-lg border-none px-3 py-2 text-sm font-medium transition-colors duration-200" @click="openMobile=false">
+                            <i class="fas fa-users mr-3 w-5"></i> {{ __('Manajemen Karyawan') }}
+                        </x-nav-link>
+
+                        <div class="space-y-1">
+                            <button type="button" @click="openKehadiran = !openKehadiran"
+                                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition {{ (request()->routeIs('admin.presence.*') || request()->routeIs('admin.perizinan')) ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5' }}">
+                                <span class="flex items-center">
+                                    <i class="fas fa-calendar-check mr-3 w-5 {{ (request()->routeIs('admin.presence.*') || request()->routeIs('admin.perizinan')) ? 'text-emerald-600' : 'text-slate-400' }}"></i>
+                                    {{ __('Kehadiran') }}
+                                </span>
+                                <i class="fas fa-chevron-down text-xs transition-transform" :class="{ 'rotate-180': openKehadiran }"></i>
+                            </button>
+
+                            <div x-show="openKehadiran" x-cloak x-transition class="ml-4 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+                                <x-nav-link :href="route('admin.presence.index')" :active="request()->routeIs('admin.presence.index')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Approval Absensi
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.perizinan')" :active="request()->routeIs('admin.perizinan')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Izin & Cuti
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.presence.schedule')" :active="request()->routeIs('admin.presence.schedule')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Jadwal Kerja
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.presence.history')" :active="request()->routeIs('admin.presence.history')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Riwayat Presensi
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.presence.settings')" :active="request()->routeIs('admin.presence.settings')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Settings Absensi
+                                </x-nav-link>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <button type="button" @click="openPekerjaan = !openPekerjaan"
+                                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition {{ (request()->routeIs('jobs.*') || request()->routeIs('admin.clients.*')) ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5' }}">
+                                <span class="flex items-center">
+                                    <i class="fas fa-briefcase mr-3 w-5 {{ (request()->routeIs('jobs.*') || request()->routeIs('admin.clients.*')) ? 'text-emerald-600' : 'text-slate-400' }}"></i>
+                                    {{ __('Pekerjaan') }}
+                                </span>
+                                <i class="fas fa-chevron-down text-xs transition-transform" :class="{ 'rotate-180': openPekerjaan }"></i>
+                            </button>
+
+                            <div x-show="openPekerjaan" x-cloak x-transition class="ml-4 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+                                <x-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Daftar Tugas
+                                </x-nav-link>
+                                <x-nav-link :href="route('jobs.create')" :active="request()->routeIs('jobs.create')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Buat Tugas Baru
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.clients.index')" :active="request()->routeIs('admin.clients.*')" class="block w-full justify-start border-none py-2 text-xs" @click="openMobile=false">
+                                    Data Client
+                                </x-nav-link>
+                            </div>
+                        </div>
+
+                        @if(Route::has('admin.checklist'))
+                            <x-nav-link :href="route('admin.checklist')" :active="request()->routeIs('admin.checklist')"
+                                class="flex w-full items-center justify-start rounded-lg border-none px-3 py-2 text-sm font-medium transition-colors duration-200" @click="openMobile=false">
+                                <i class="fas fa-clipboard-check mr-3 w-5"></i> {{ __('Checklist') }}
+                            </x-nav-link>
+                        @endif
+
+                        <div class="space-y-1">
+                            <button type="button" @click="openRekrutmen = !openRekrutmen"
+                                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('recruitment.*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5' }}">
+                                <span class="flex items-center">
+                                    <i class="fas fa-user-tie mr-3 w-5 {{ request()->routeIs('recruitment.*') ? 'text-emerald-600 dark:text-emerald-300' : 'text-slate-400 dark:text-slate-400' }}"></i>
+                                    {{ __('Rekrutmen') }}
+                                </span>
+                                <i class="fas fa-chevron-down text-xs transition-transform" :class="{ 'rotate-180': openRekrutmen }"></i>
+                            </button>
+                            <div x-show="openRekrutmen" x-cloak x-transition class="ml-4 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+                                <x-nav-link :href="route('recruitment.profil')" :active="request()->routeIs('recruitment.profil')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Profil
+                                </x-nav-link>
+                                <x-nav-link :href="route('recruitment.index')" :active="request()->routeIs('recruitment.index')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Manajemen Rekrutmen
+                                </x-nav-link>
+                                <x-nav-link :href="route('recruitment.lowongan')" :active="request()->routeIs('recruitment.lowongan')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Lowongan Pekerjaan
+                                </x-nav-link>
+                                <x-nav-link :href="route('recruitment.kandidat')" :active="request()->routeIs('recruitment.kandidat')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Kandidat
+                                </x-nav-link>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <button type="button" @click="openKpi = !openKpi"
+                                class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition {{ request()->routeIs('kpi.*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5' }}">
+                                <span class="flex items-center">
+                                    <i class="fas fa-chart-line mr-3 w-5 {{ request()->routeIs('kpi.*') ? 'text-emerald-600 dark:text-emerald-300' : 'text-slate-400 dark:text-slate-400' }}"></i>
+                                    {{ __('KPI') }}
+                                </span>
+                                <i class="fas fa-chevron-down text-xs transition-transform" :class="{ 'rotate-180': openKpi }"></i>
+                            </button>
+                            <div x-show="openKpi" x-cloak x-transition class="ml-4 space-y-1 border-l border-slate-200 pl-4 dark:border-slate-700">
+                                <x-nav-link :href="route('kpi.formulir')" :active="request()->routeIs('kpi.formulir')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Formulir
+                                </x-nav-link>
+                                <x-nav-link :href="route('kpi.jadwal')" :active="request()->routeIs('kpi.jadwal')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Jadwal
+                                </x-nav-link>
+                                <x-nav-link :href="route('kpi.evaluasi')" :active="request()->routeIs('kpi.evaluasi')" class="block w-full justify-start border-none py-2 text-xs rounded-lg px-3 text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-white/5" @click="openMobile=false">
+                                    Evaluasi
+                                </x-nav-link>
+                            </div>
+                        </div>
+
                         <x-nav-link :href="route('admin.messages')" :active="request()->routeIs('admin.messages')"
                             class="flex w-full items-center justify-start rounded-lg border-none px-3 py-2 text-sm font-medium transition-colors duration-200" @click="openMobile=false">
                             <i class="fas fa-comments mr-3 w-5"></i> {{ __('Chat Group') }}
