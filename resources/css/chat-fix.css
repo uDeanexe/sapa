@@ -1,0 +1,167 @@
+/*
+ * Web chat layout hardening.
+ * Scope semua rule ke halaman chat agar halaman lain tetap aman.
+ */
+
+:root {
+    --chat-shell-max-width: 1120px;
+    --chat-bubble-max-width: 620px;
+    --chat-media-max-width: 280px;
+    --chat-media-max-height: 420px;
+}
+
+body:has(#chat-container) {
+    overflow: hidden;
+}
+
+body:has(#chat-container) #main-content,
+body:has(#chat-container) #main-content > article {
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body:has(#chat-container) .chat-panel {
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+#chat-container {
+    min-height: 0;
+    flex: 1 1 auto;
+    overscroll-behavior: contain;
+    scroll-padding-block: 1.5rem 8rem;
+}
+
+#chat-container > div,
+#chat-form {
+    width: min(100%, var(--chat-shell-max-width));
+    margin-inline: auto;
+}
+
+#chat-container > div {
+    padding-inline: clamp(0.75rem, 2vw, 1.5rem) !important;
+}
+
+#chat-container .chat-message-row {
+    width: 100%;
+    min-width: 0;
+}
+
+#chat-container .chat-message-row > .relative {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Override inline Blade/Tailwind max-width agar bubble tidak memenuhi layar desktop. */
+#main-content #chat-container .chat-message-row .message-bubble {
+    width: fit-content;
+    max-width: min(var(--chat-bubble-max-width), 72vw) !important;
+    min-width: 0;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+#main-content #chat-container .chat-message-row .message-bubble :where(p, span, div, a) {
+    max-width: 100%;
+}
+
+#main-content #chat-container .message-bubble a[data-lightbox],
+#main-content #chat-container .message-bubble [data-glightbox],
+#main-content #chat-container .message-bubble [class*="group/media"],
+#main-content #chat-container .message-bubble [class*="group/video"] {
+    display: block;
+    width: fit-content;
+    max-width: min(var(--chat-media-max-width), 72vw) !important;
+}
+
+#main-content #chat-container .message-bubble :where(img, video, canvas, picture) {
+    display: block;
+    width: auto !important;
+    max-width: min(var(--chat-media-max-width), 72vw) !important;
+    max-height: min(var(--chat-media-max-height), 62vh) !important;
+    height: auto !important;
+    object-fit: contain;
+    border-radius: 0.875rem;
+}
+
+#main-content #chat-container .message-bubble video {
+    background: #020617;
+}
+
+#main-content #chat-container .message-bubble a[download] {
+    width: min(100%, 360px);
+    min-width: 0;
+}
+
+#chat-form {
+    isolation: isolate;
+}
+
+#file-preview {
+    left: 0.75rem !important;
+    right: 0.75rem !important;
+    width: auto !important;
+    max-width: calc(100% - 1.5rem);
+}
+
+#attach-menu,
+#emoji-menu,
+#mention-menu {
+    z-index: 80 !important;
+}
+
+#attach-menu {
+    max-width: min(14rem, calc(100vw - 2rem));
+}
+
+.message-menu {
+    max-width: min(13.75rem, calc(100vw - 2rem));
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --chat-shell-max-width: 100%;
+        --chat-bubble-max-width: 560px;
+        --chat-media-max-width: 260px;
+        --chat-media-max-height: 380px;
+    }
+
+    #main-content #chat-container .chat-message-row .message-bubble {
+        max-width: min(var(--chat-bubble-max-width), 82vw) !important;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --chat-bubble-max-width: 100%;
+        --chat-media-max-width: 220px;
+        --chat-media-max-height: 320px;
+    }
+
+    body:has(#chat-container) .chat-panel {
+        border-radius: 0 !important;
+        border-inline: 0 !important;
+    }
+
+    #chat-container > div {
+        padding-inline: 0.75rem !important;
+    }
+
+    #main-content #chat-container .chat-message-row .message-bubble {
+        max-width: 88vw !important;
+        padding: 0.625rem 0.75rem;
+    }
+
+    #chat-form {
+        padding-inline: 0.75rem !important;
+    }
+
+    #attach-menu,
+    #emoji-menu,
+    #mention-menu {
+        max-width: calc(100vw - 1.5rem) !important;
+    }
+}
