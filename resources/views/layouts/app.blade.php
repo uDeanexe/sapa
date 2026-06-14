@@ -30,7 +30,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
         
         <!-- Vite Assets -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/css/chat-fix.css', 'resources/js/app.js'])
 
         <!-- Theme bootstrap (prevents flash) -->
         <script>
