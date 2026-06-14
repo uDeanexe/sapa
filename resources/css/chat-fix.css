@@ -21,9 +21,17 @@ body:has(#chat-container) #main-content > article {
     overflow: hidden;
 }
 
+body:has(#chat-container) #main-content > article > .h-full,
+body:has(#chat-container) #main-content > article > div:first-child {
+    min-height: 0;
+    flex: 1 1 auto;
+}
+
 body:has(#chat-container) .chat-panel {
     min-height: 0;
     max-height: 100%;
+    width: min(100%, calc(var(--chat-shell-max-width) + 2rem));
+    margin-inline: auto;
     overflow: hidden;
 }
 
@@ -66,6 +74,13 @@ body:has(#chat-container) .chat-panel {
 
 #main-content #chat-container .chat-message-row .message-bubble :where(p, span, div, a) {
     max-width: 100%;
+}
+
+#main-content #chat-container .message-bubble:has(img),
+#main-content #chat-container .message-bubble:has(video),
+#main-content #chat-container .message-bubble:has(canvas),
+#main-content #chat-container .message-bubble:has(picture) {
+    max-width: min(340px, 78vw) !important;
 }
 
 #main-content #chat-container .message-bubble a[data-lightbox],
@@ -129,6 +144,10 @@ body:has(#chat-container) .chat-panel {
         --chat-media-max-height: 380px;
     }
 
+    body:has(#chat-container) .chat-panel {
+        width: 100%;
+    }
+
     #main-content #chat-container .chat-message-row .message-bubble {
         max-width: min(var(--chat-bubble-max-width), 82vw) !important;
     }
@@ -146,6 +165,25 @@ body:has(#chat-container) .chat-panel {
         border-inline: 0 !important;
     }
 
+    body:has(#chat-container) .chat-panel header > div {
+        padding-inline: 0.875rem !important;
+    }
+
+    body:has(#chat-container) .chat-panel header .h-12.w-12 {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    body:has(#chat-container) .chat-panel header h1 {
+        font-size: 1rem !important;
+        line-height: 1.25rem !important;
+    }
+
+    body:has(#chat-container) .chat-panel header p {
+        display: none !important;
+    }
+
     #chat-container > div {
         padding-inline: 0.75rem !important;
     }
@@ -157,6 +195,19 @@ body:has(#chat-container) .chat-panel {
 
     #chat-form {
         padding-inline: 0.75rem !important;
+    }
+
+    #chat-form .flex.items-end.gap-3 {
+        gap: 0.5rem !important;
+    }
+
+    #input-container {
+        padding-inline: 0.625rem !important;
+    }
+
+    #action-btn {
+        width: 3rem !important;
+        min-width: 3rem !important;
     }
 
     #attach-menu,
