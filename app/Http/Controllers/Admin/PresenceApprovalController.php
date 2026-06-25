@@ -225,7 +225,6 @@ public function schedule()
 
     public function updateSettings(Request $request) 
 {
-    dd($request->all());
     $request->validate([
         'latitude'       => 'required',
         'longitude'      => 'required',
